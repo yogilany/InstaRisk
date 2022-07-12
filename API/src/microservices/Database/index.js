@@ -23,7 +23,7 @@ const bookshelf = require(`bookshelf`)(knex);
 bookshelf.plugin(`bookshelf-virtuals-plugin`);
 bookshelf.plugin(require(`bookshelf-soft-delete`));
 
-const Assessments = bookshelf.Model.extend({
+const Assessments = bookshelf.model(`Assessments`, {
   tableName: `assessments`,
 });
 

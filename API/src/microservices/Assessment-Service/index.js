@@ -1,6 +1,16 @@
+
 const { Assessments } = require(`../Database`);
 
-exports.submit = async (assessment) => {
+exports.submit = async (assess) => {
+
+  Assessments.forge(assess)
+    .save()
+    .then(assessment => {
+      console.log(assessment);
+    })
+    .catsh(err => {
+      console.log(err);
+    });
   // use the bookshelf model Assessments from API/src/microservices/Database to save
   // the assessment data in the PostgreSQL database
 };
