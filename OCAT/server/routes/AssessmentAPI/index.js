@@ -13,8 +13,16 @@ router.post(`/submit`, async (req, res, next) => {
   }
 });
 
-router.get(`/list`, (req, res, next) => {
+router.get(`/list`, async (req, res, next) => {
   try {
+
+    const assessments = await AssessmentService.getList();
+    res
+      .status(200)
+      .json({ assessments });
+
+    console.log(assessments);
+
     // call the getList function from the server/libs/AssessmentService
     // return assessments to front-end
   } catch (error) {
