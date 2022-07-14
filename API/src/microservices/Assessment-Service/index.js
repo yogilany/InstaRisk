@@ -1,15 +1,11 @@
-
-const Assessment = require(`../../routes/Assessment`);
 const { Assessments } = require(`../Database`);
 
 exports.submit = (assess) => {
 
   Assessments.forge(assess)
     .save()
-    .then(assessment => {
-      console.log(`SUBMITTED SUBMITTED SUBMITTED SUBMITTED SUBMITTED SUBMITTED SUBMITTED SUBMITTED SUBMITTED `);
-    })
-    .catsh(err => {
+    .then(assessment => assessment)
+    .catch(err => {
       console.log(err);
     });
   // use the bookshelf model Assessments from API/src/microservices/Database to save

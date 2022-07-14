@@ -21,8 +21,6 @@ router.get(`/list`, async (req, res, next) => {
       .status(200)
       .json({ assessments });
 
-    console.log(assessments);
-
     // call the getList function from the server/libs/AssessmentService
     // return assessments to front-end
   } catch (error) {
