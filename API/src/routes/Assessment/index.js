@@ -10,7 +10,7 @@ module.exports = server => {
     async (req, res, next) => {
       try {
         const { assessment } = req.params;
-        
+
         // verify that your data is making it here to the API by using console.log(assessment);
         // call the AssessmentService.submit function from the API/src/microservices/Assessment/ and
         // supply the correct parameters
@@ -35,6 +35,7 @@ module.exports = server => {
 
         // verify that your data is making it here to the API by using console.log();
         // call the AssessmentService.getList function from the API/src/microservices/Assessment/
+        const assessments = await AssessmentService.getList();
 
         ResponseHandler(
           res,
@@ -42,6 +43,7 @@ module.exports = server => {
           { assessments },
           next,
         );
+
       } catch (err) {
         next(err);
       }
