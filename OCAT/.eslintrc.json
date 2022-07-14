@@ -132,7 +132,6 @@
       "ignoreCase": true,
       "ignoreDeclarationSort": true
     } ],
-    "sort-keys": 2,
     "sort-vars": [ 2, { "ignoreCase": true } ],
     "space-before-blocks": 2,
     "space-infix-ops": 2,
