@@ -6,6 +6,12 @@ import { AssessmentService } from '../../services/AssessmentService';
 export const NewAssessment = () => {
   const { formState: { errors }, handleSubmit, register, watch } = useForm();
 
+  const questions = [
+    {
+      question: `question 1`,
+      choices: [{ text: `c1`, score: 1 }, { text: `c2`, score: 0 }],
+    },
+  ];
   // create a form that utilizes the "onSubmit" function to send data to OCAT/client/services/AssessmentService.js and
   // then onto the OCAT/server/routes/AssessmentAPI express API
   const onSubmit = async (data) => {
@@ -24,18 +30,14 @@ export const NewAssessment = () => {
     if (data.question5 === `yes`)
     { RiskScore++; }
 
-    // Get timestamp of submitting the form
-    const o = new Intl.DateTimeFormat(`en`, {
-      timeStyle: `long`,
-      dateStyle: `long`,
-    });
+    const now = new Date();
 
     const assessmentData = {
       cat_name: data.name,
       cat_date_of_birth: data.dateOfBirth,
       score: RiskScore,
       risk_level: RiskScore < 2 ? `Low` : RiskScore < 4 ? `Medium` : ` High`,
-      created_at: o.format(Date.now()),
+      created_at: now,
       deleted_at: null,
     };
 
