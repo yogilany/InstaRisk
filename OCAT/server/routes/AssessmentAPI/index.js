@@ -28,5 +28,16 @@ router.get(`/list`, async (req, res, next) => {
   }
 });
 
+router.post(`/delete`, async (req, res, next) => {
+  try {
+    const status = await AssessmentService.delete(req.body.ids);
+    res
+      .status(200)
+      .json({ status });
+  } catch (error) {
+    next(error);
+  }
+});
+
 exports.router = router;
 exports.path = `/api/assessment`;
