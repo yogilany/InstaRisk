@@ -17,6 +17,7 @@ export class AssessmentService {
 
   static getList() {
     try {
+
       // Choose the correct method, url, and data to send
       // in a request to the express OCAT/server/routes/Assessment/index.js
       // NOTE: the http.config file automatically adds /api to the front of your url
@@ -30,4 +31,16 @@ export class AssessmentService {
       throw new Error(`${err.response.statusText} - ${err.response.data.message}`);
     }
   }
+
+  static delete(ids) {
+    try {
+      return Axios.post(`/assessment/delete`, { ids })
+        .then(response => response.data.status);
+    }
+    catch (err) {
+      alert(err.response);
+      throw new Error(`${err.response.statusText} - ${err.response.data.message}`);
+    }
+  }
+
 }
