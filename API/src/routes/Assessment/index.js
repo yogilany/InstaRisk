@@ -49,4 +49,24 @@ module.exports = server => {
       }
     },
   );
+
+  server.post(
+    `${BASE_URL}/delete`,
+    async (req, res, next) => {
+      try {
+        const { ids } = req.body;
+
+        const status = await AssessmentService.delete(ids);
+
+        ResponseHandler(
+          res,
+          `Deleted assessments`,
+          { status },
+          next,
+        );
+      } catch (err) {
+        next(err);
+      }
+    },
+  );
 };
