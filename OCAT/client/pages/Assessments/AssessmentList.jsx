@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useTable } from 'react-table';
+import { useRowSelect, useTable } from 'react-table';
+import { Button } from 'react-bootstrap';
+import { clone } from 'lodash';
+
 import { AssessmentService } from '../../services/AssessmentService';
+import { Checkbox } from '../../components/checkbox';
 
 export const AssessmentList = () => {
+
   const [ assessments, setAssessments ] = useState([]);
 
   const columns = React.useMemo(
@@ -30,6 +35,7 @@ export const AssessmentList = () => {
       {
         Header: `Created at`,
         accessor: `created_at`,
+
       },
     ],
     [],
@@ -49,28 +55,58 @@ export const AssessmentList = () => {
     headerGroups,
     prepareRow,
     rows,
+    selectedFlatRows,
   } = useTable(
     {
       columns,
       data: assessments,
     },
+    useRowSelect,
+    hooks => {
+      hooks.visibleColumns.push(_columns => [
+        {
+          id: `selection`,
+          Header: ({ getToggleAllRowsSelectedProps }) =>
+            <Checkbox {...getToggleAllRowsSelectedProps()} />,
+          Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />,
+        },
+        ..._columns,
+      ]);
+    },
   );
+
+  const onClick = async (ids) => {
+
+    const status = await AssessmentService.delete(ids);
+
+    const dlt = ids.Selected;
+
+    let _assessments = clone(assessments);
+    for (const id of dlt) {
+      _assessments = _assessments.filter((assessment) => assessment.id !== id);
+    }
+    setAssessments(_assessments);
+
+  };
 
   return (
     <div>
-      <table {...getTableProps()} style={{ border: `solid 1px blue` }}>
+      <table {...getTableProps()} className="table table-bordered table-hover">
         <thead>
           {headerGroups.map(headerGroup =>
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column =>
                 <th
                   {...column.getHeaderProps()}
+
                 >
                   {column.render(`Header`)}
+
                 </th>)}
             </tr>)}
         </thead>
-        <tbody {...getTableBodyProps()}>
+        <tbody {...getTableBodyProps()}
+        >
           {rows.map(row => {
             prepareRow(row);
             return (
@@ -78,6 +114,7 @@ export const AssessmentList = () => {
                 {row.cells.map(cell =>
                   <td
                     {...cell.getCellProps()}
+
                   >
                     {cell.render(`Cell`)}
                   </td>)}
@@ -85,7 +122,15 @@ export const AssessmentList = () => {
             );
           })}
         </tbody>
+
       </table>
+      <Button
+        onClick={() => onClick({ Selected: selectedFlatRows.map((row) => row.original.id) })}
+        variant="primary"
+      >
+        Delete selected rows
+      </Button>
+      <hr />
     </div>
   );
 };
