@@ -32,5 +32,4 @@ const Users = bookshelf.model(`Users`, {
 });
 
 exports.Assessments = Assessments;
-exports.Users = Assessments;
-
+exports.Users = Users;
