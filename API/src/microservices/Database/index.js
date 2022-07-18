@@ -27,4 +27,10 @@ const Assessments = bookshelf.model(`Assessments`, {
   tableName: `assessments`,
 });
 
+const Users = bookshelf.model(`Users`, {
+  tableName: `users`,
+});
+
 exports.Assessments = Assessments;
+exports.Users = Assessments;
+
